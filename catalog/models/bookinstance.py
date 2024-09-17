@@ -40,5 +40,10 @@ class BookInstance(Model):
     def __str__(self) -> str:
         return f'{self.id} ({self.book.title})'
 
+    def display_book_title(self) -> str:
+        return self.book.title
+
+    display_book_title.short_description = 'Title'
+
     class Meta:
         ordering = ['due_back']
