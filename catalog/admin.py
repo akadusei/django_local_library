@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Book, BookInstance, Genre, Language
+from .models import Author, Book, BookInstance #, Genre, Language
 
 class BookInstanceInline(admin.TabularInline):
     extra = 0
