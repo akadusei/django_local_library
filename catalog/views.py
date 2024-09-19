@@ -1,6 +1,9 @@
+# from typing import Any
+
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 
 from .models import Author, Book, BookInstance, Genre
 
@@ -25,3 +28,25 @@ def index(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, 'index.html', context=context)
+
+class AuthorListView(ListView):
+    model = Author
+    paginate_by = 10
+
+class AuthorDetailView(DetailView):
+    model = Author
+
+class BookListView(ListView):
+    model = Book
+    paginate_by = 10
+
+    # def get_context_data(self, **kwargs) -> dict[str, Any]:
+    #     context = super().get_context_data(**kwargs)
+    #     context['some_data'] = 'This is just some data'
+    #     return context
+
+    # def get_queryset(self):
+    #     return Book.objects.all()
+
+class BookDetailView(DetailView):
+    model = Book

@@ -53,3 +53,6 @@ class Book(Model):
 
     def get_absolute_url(self) -> str:
         return reverse('book-detail', args=[str(self.id)])
+
+    class Meta:
+        ordering = ['title']
