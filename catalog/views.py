@@ -18,13 +18,18 @@ def index(request: HttpRequest) -> HttpResponse:
         .filter(title__icontains='harry potter')
         .count())
 
+    num_visits = request.session.get('num_visits', 0)
+    num_visits += 1
+    request.session['num_visits'] = num_visits
+
     context = {
         'num_authors': num_authors,
         'num_books': num_books,
         'num_genres': num_genres,
         'num_harry_potter_books': num_harry_potter,
         'num_instances': num_instances,
-        'num_instances_available': num_available
+        'num_instances_available': num_available,
+        'num_visits': num_visits,
     }
 
     return render(request, 'index.html', context=context)
