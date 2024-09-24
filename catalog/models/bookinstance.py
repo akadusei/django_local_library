@@ -1,11 +1,14 @@
+from datetime import date
 import uuid
 
+from django.conf import settings
 from django.db.models import (
     CharField,
     DateField,
     ForeignKey,
     Model,
     RESTRICT,
+    SET_NULL,
     UUIDField
 )
 
@@ -37,8 +40,19 @@ class BookInstance(Model):
         help_text='Book availability'
     )
 
+    borrower = ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=SET_NULL,
+        null=True,
+        blank=True
+    )
+
     def __str__(self) -> str:
         return f'{self.id} ({self.book.title})'
+
+    @property
+    def is_overdue(self) -> bool:
+        return self.due_back and date.today() > self.due_back
 
     def display_book_title(self) -> str:
         return self.book.title
@@ -47,3 +61,4 @@ class BookInstance(Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (('can_mark_returned', 'Set book as returned'), )

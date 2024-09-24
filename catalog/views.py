@@ -1,5 +1,11 @@
 # from typing import Any
 
+from typing import Any
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
+from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render
@@ -55,3 +61,28 @@ class BookListView(ListView):
 
 class BookDetailView(DetailView):
     model = Book
+
+class LoanedBooksByUserListView(LoginRequiredMixin, ListView):
+    model = BookInstance
+    paginate_by = 10
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return (BookInstance.objects
+            .filter(borrower=self.request.user, status__exact='o')
+            .order_by('due_back'))
+
+class BorrowedBooksListView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    ListView
+):
+    model = BookInstance
+    paginate_by = 10
+    permission_required = ('catalog.can_mark_returned')
+    template_name = 'catalog/bookinstance_list_borrowed.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        return (BookInstance.objects
+            .filter(status__exact='o')
+            .order_by('due_back'))
