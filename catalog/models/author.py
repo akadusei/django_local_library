@@ -13,7 +13,8 @@ class Author(Model):
     def get_absolute_url(self) -> str:
         return reverse('author-detail', args=[str(self.id)])
 
-    def get_age_range(self) -> str:
+    @property
+    def age_range(self) -> str:
         if self.date_of_birth and self.date_of_death:
             return f'{self.date_of_birth} - {self.date_of_death}'
         elif self.date_of_birth:

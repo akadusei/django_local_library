@@ -8,7 +8,7 @@
       {% for author in author_list %}
       <li>
         <a href="{{ author.get_absolute_url }}">{{ author }}</a>
-        {% if author.get_age_range %}({{ author.get_age_range }}){% endif %}
+        {% if author.age_range %}({{ author.age_range }}){% endif %}
       </li>
       {% endfor %}
     </ul>
