@@ -5,7 +5,7 @@ class Author(Model):
     first_name = CharField(max_length=100)
     last_name = CharField(max_length=100)
     date_of_birth = DateField(null=True, blank=True)
-    date_of_death = DateField('Died', null=True, blank=True)
+    date_of_death = DateField('died', null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.last_name}, {self.first_name}'
