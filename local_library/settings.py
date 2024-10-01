@@ -41,6 +41,14 @@ if 'DJANGO_ALLOWED_HOSTS' in os.environ:
         os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
     ))
 
+CSRF_TRUSTED_ORIGINS = []
+
+if 'DJANGO_CSRF_TRUSTED_ORIGINS' in os.environ:
+    CSRF_TRUSTED_ORIGINS = list(map(
+        str.strip,
+        os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
+    ))
+
 
 # Application definition
 
